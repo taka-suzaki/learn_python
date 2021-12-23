@@ -6,7 +6,7 @@ a = np.array([[1, 4, 2], [7, 9, 4], [0, 6, 2]])
 b = np.array([1, 2, 3, 4, 5])
 
 
-def writeCSV(data, path):
+# def writeCSV(data, path):
     with open(path, 'w') as f:
         writer = csv.writer(f)
         writer.writerows(data)
