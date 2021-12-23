@@ -13,6 +13,7 @@ def writeCSV(data, path):
 
 
 # writer
+
 writeCSV(a, 'data/csv/sample1.csv')
 writeCSV(b, 'data/csv/sampleb1.csv')
 
