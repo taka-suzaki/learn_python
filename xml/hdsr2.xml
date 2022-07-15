@@ -1,0 +1,117 @@
+<scenario name="hdsr">
+    <dp name="sequential_hdsr" fillemthod="sequential">
+        <frame name="start" order='1'>
+            <action device="speaker">こんにちは、今から診断を始めます。</action>
+        </frame>
+        <frame name="qname" order="2">
+            <request timeout="15">
+                <slot name="person"/>
+            </request>
+            <action device="speaker">お名前は何ですか？</action>
+        </frame>
+        <frame name="q1" order="3">
+            <request timeout="15">
+                <slot name="age"/>
+            </request>
+            <action device="speaker">お年はいくつですか？</action>
+        </frame>
+        <frame name="q2" order="4">
+            <request timeout="15">
+                <slot name="year" required="true" null="何年"/>
+                <slot name="month" required="true" null="何月"/>
+                <slot name="date" required="true" null="何日"/>
+                <slot name="day" required="true" null="何曜日"/>
+            </request>
+            <action device="speaker">今日は{year.null}{month.null}{date.null}{day.null}ですか？</action>
+        </frame>
+        <frame name="q3" order="5">
+            <request timeout="15">
+                <slot name="location"/>
+            </request>
+            <action device="speaker">私たちが今いる場所はどこですか？</action>
+        </frame>
+        <frame name="q4" order="6">
+            <request timeout="15">
+                <slot name="threeword" multiple="true"/>
+            </request>
+            <action device="speaker">これから言う3つの言葉を言ってください</action>
+        </frame>
+        <frame name="q4_2" order="7">
+            <action device="speaker">あとでもう一度聞くので覚えておいてください</action>
+        </frame>
+        <frame name="q5-1" order="8">
+            <request timeout="15">
+                <slot name="substraction"/>
+            </request>
+            <action device="speaker">100から7を順番に引いてください</action>
+        </frame>
+        <frame name="q5-2" order="9">
+            <request timeout="15">
+                <slot name="substraction"/>
+            </request>
+            <action device="speaker">もう一度7を引いてください</action>
+        </frame>
+        <frame name="q6-1" order="10">
+            <request timeout="15">
+                <slot name="reverse"/>
+            </request>
+            <action device="speaker">私がこれから言う数字を逆から言ってください。6, 8, 2</action>
+        </frame>
+        <frame name="q6-2" order="11">
+            <request timeout="15">
+                <slot name="reverse"/>
+            </request>
+            <action device="speaker">3, 5, 2, 9を逆から言ってください。</action>
+        </frame>
+        <frame name="q7" order="12">
+            <request timeout="15">
+                <slot name="threeword"/>
+            </request>
+            <action device="speaker">先ほど覚えてもらった言葉をもう一度言ってみてください。</action>
+        </frame>
+        <dp fillemthod="loop" order="13" max_loop="10">
+            <frame name="q8">
+                <request timeout="15">
+                    <slot name="vegetables" multiple="true"/>
+                </request>
+                <action device="speaker">知っている野菜の名前をできるだけ多く言ってください。</action>
+            </frame>
+            <frame name="q8">
+                <request timeout="15">
+                    <slot name="vegetables" multiple="true"/>
+                </request>
+                <action device="speaker">その調子です。</action>
+            </frame>
+        </dp>
+        <frame name="finish" order="14">
+            <action device="speaker">これで診断を終了します。お疲れ様でした。</action>
+            <post url="http://sss.com">
+                {
+                    "person": "qname.person",
+                    "age": "q1.age",
+                    "location": "q2.location",
+                    "year": "q3.year",
+                    "month": "q3.month",
+                    "date": "q3.date",
+                    "day": "q3.day",
+                    "threeword_1": "q4.threeword",
+                    "subtraction_1": "q5-1.subtraction",
+                    "subtraction_2": "q5-2.subtraction",
+                    "reverse_1": "q6-1.reverse",
+                    "reverse_2": "q6-2.reverse",
+                    "threeword_2": "q7.threeword",
+                    "vegetables": "q8.vegetables"
+                }
+            </post>
+        </frame>
+        <frame name="inform_score" order="15">
+            <get type="method" func="HDSR.score">
+                {
+                    "score": "score",
+                    "person_name": "person"
+                }
+            </get>
+            <action device="speaker">{person}さんの点数は{score}点です</action>
+        </frame>
+    </dp>
+</scenario>

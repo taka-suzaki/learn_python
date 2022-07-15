@@ -1,0 +1,11 @@
+<frame name="inform_score" order="15">
+    <get type="method" func="HDSR.score">
+        {
+            "score": "score",
+            "person_name": "person"
+        }
+    </get>
+    <actions>
+        <action device="speaker">{person}さんの点数は{score}点です</action>
+    </actions>
+</frame>
